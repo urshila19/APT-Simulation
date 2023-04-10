@@ -1,0 +1,20 @@
+- id: 2ff877b4-0c00-401e-9d3f-070c70b610df
+  name: System Service Discovery
+  description: The sc utility is executed via cmd to enumerate local active services.
+  tactic: discovery
+  technique:
+    attack_id: T1007
+    name: "System Service Discovery"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_discovery
+  procedure_step: "2.D.1"
+  platforms:
+    windows:
+      cmd:
+        command: |
+          sc query
+
+  executors:
+  - name: command_prompt
+    command: |
+      sc query

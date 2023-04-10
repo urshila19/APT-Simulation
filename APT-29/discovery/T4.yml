@@ -1,0 +1,20 @@
+- id: ee08a427-1e1d-4d8a-aeb1-978a7fcf9087
+  name: System Network Configuration Discovery
+  description: The ipconfig utility is executed via cmd to enumerate local TCP/IP network configuration information.
+  tactic: discovery
+  technique:
+    attackFT_id: T1016
+    name: "System Network Configuration Discovery"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_discovery
+  procedure_step: "2.A.2"
+  platforms:
+    windows:
+      cmd:
+        command: |
+          ipconfig /all
+
+  executors:
+  - name: command_prompt
+    command: |
+      ipconfig /all

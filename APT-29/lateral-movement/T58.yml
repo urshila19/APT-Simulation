@@ -1,0 +1,39 @@
+- id: 00446217-53ca-4749-bacd-f41fe189d36e
+  name: Startup Folder Persistence Execution
+  description: Sets credentials for a headless RDP session to spawn triggering startup folder persistence.
+  tactic: lateral-movement
+  technique:
+    attack_id: T1037.005
+    name: "Boot or Logon Initialization Scripts: Startup Items"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_lat_movement
+  procedure_step: "10.B"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          cmdkey /add:127.0.0.2 /user:#{profile_user} /pass:#{profile_user_password};
+          mstsc /v:127.0.0.2;
+          sleep 10;
+          Get-Process -name mstsc;
+          if ($?) { taskkill.exe /F /IM mstsc.exe; exit 0; } else {exit 1;}
+
+  input_arguments:
+    profile_user:
+      description: Name of profile user
+      type: string
+      default: Administrator
+
+    profile_user_password:
+      description: Password of profile user
+      type: string
+      default: Password123!
+
+  executors:
+  - name: powershell
+    command: |
+      cmdkey /add:127.0.0.2 /user:#{profile_user} /pass:#{profile_user_password};
+      mstsc ssts/v:127.0.0.2;
+      sleep 10;
+      Get-Process -name mstsc;
+      if ($?) { taskkill.exe /F /IM mstsc.exe; exit 0; } else {exit 1;}

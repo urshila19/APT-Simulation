@@ -1,0 +1,20 @@
+- id: 5f4263c4-7ff1-4098-b5f5-f41faa31cf5b
+  name: System Network Configuration Discovery
+  description: The netsh utility is executed via cmd to enumerate local firewall configuration information.
+  tactic: discovery
+  technique:
+    attack_id: T1016
+    name: "System Network Configuration Discovery"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_discovery
+  procedure_step: "4.B.1"
+  platforms:
+    windows:
+      cmd:
+        command: |
+          netsh advfirewall show allprofiles
+
+  executors:
+  - name: command_prompt
+    command: |
+      netsh advfirewall show allprofiles

@@ -1,0 +1,40 @@
+- id: 6f1f4768-7099-45d2-a858-b49dc792234e
+  name: Loading Stage-2 & Performing Discovery
+  description: Load Stage-2 from Modified Sysinternals Toolset
+  tactic: discovery
+  technique:
+    attack_id: T1082
+    name: "System Information Discovery"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_discovery
+  procedure_step: "4.C.1"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          if (! $(test-path -path "C:\Program Files\SysInternalsSuite")) {
+            write-host "[!] The path C:\Program Files\SysInternalsSuite does not exist. Execution has stopped.";
+            exit 1;
+          }
+
+          Set-Location -path "C:\Program Files\SysInternalsSuite";
+          if (!(test-path ".\readme.ps1")) {
+            Move-Item .\readme.txt readme.ps1 -Force;
+          }
+          . .\readme.ps1;
+          Invoke-Discovery;
+
+  executors:
+  - name: powershell
+    command: |
+      if (! $(test-path -path "C:\Program Files\SysInternalsSuite")) {
+        write-host "[!] The path C:\Program Files\SysInternalsSuite does not exist. Execution has stopped.";
+        exit 1;
+      }f
+
+      Set-Location -path "C:\Program Files\SysInternalsSuite";
+      if (!(test-path ".\readme.ps1")) {
+        Move-Item .\readme.txt readme.ps1 -Force;
+      }
+      . .\readme.ps1;
+      Invoke-Discovery;

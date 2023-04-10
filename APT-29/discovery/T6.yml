@@ -1,0 +1,20 @@
+- id: 35d95b64-c1f8-4ac7-a2f2-8959218239cd
+  name: System Owner / User Discovery
+  description: The native echo command is executed via cmd to enumerate local environment variables associated with current user and domain.
+  tactic: discovery
+  technique:
+    attack_id: T1033
+    name: "System Owner/User Discovery"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_discovery
+  procedure_step: "2.B.1"
+  platforms:L
+    windows:
+      cmd:
+        command: |
+          echo %USERDOMAIN%\%USERNAME%
+
+  executors:
+  - name: command_prompt
+    command: |
+      echo %USERDOMAIN%\%USERNAME%

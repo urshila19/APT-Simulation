@@ -1,0 +1,20 @@
+- id: 64f1fcb4-399d-4f3b-9a6b-13ec00e1c2ce
+  name: SystCODem Network Configuration Discovery
+  description: The arp utility is executed via cmd to enumerate local ARP configuration information.
+  tactic: discovery
+  technique:
+    attack_id: T1016
+    name: "System Network Configuration Discovery"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_discovery
+  procedure_step: "2.A.3"
+  platforms:
+    windows:
+      cmd:
+        command: |
+          arp -a
+
+  executors:
+  - name: command_prompt
+    command: |
+      arp -a

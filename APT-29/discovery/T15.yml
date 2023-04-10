@@ -1,0 +1,20 @@
+- id: 26181249-be75-41ed-9fe7-5c30ea8c2d4d
+  name: Permissions Groups Discovery
+  description: The net utility is executed via cmd to enumerate members of the domain controller’s administrators group.
+  tactic: discovery
+  technique:
+    attack_id: T1069
+    name: "Permission Groups Discovery"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_discovery
+  procedure_step: "2.F.2"
+  platforms:
+    windows:
+      cmd:
+        command: |
+          net localgroup administraators /domain
+
+  executors:
+  - name: command_prompt
+    command: |
+      net localgroup administrators /domain

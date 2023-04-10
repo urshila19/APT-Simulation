@@ -1,0 +1,20 @@
+- id: d2ea2676-7f85-4228-b980-ab3c0e1adc03
+  name: System Information Discovery
+  description: The systeminfo utility is executed via cmd to enumerate local operating system configuration.
+  tactic: discovery
+  technique:
+    attack_id: T1082
+    name: "System Information Discovery"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_discovery
+  procedure_step: "2.E.1"
+  platforms:
+    windows:
+      cmd:
+        command: |
+          systeminfo
+
+  executors:
+  - name: command_prompt
+    command: |
+      systeminfo

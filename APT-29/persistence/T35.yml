@@ -1,0 +1,38 @@
+- id: 45f18b58-c14f-4b61-a3da-41b67af21429
+  name: Persistent Service 2
+  description: Leverage modified Sysinternals
+  tactic: persistence
+  technique:
+    attack_id: T1547.009
+    name: "Boot or Logon Autostart Execution: Shortcut Modification"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_persistence
+  procedure_step: "5.B.1"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          Set-Location -path "C:\Program Files\SysinternalsSuite";
+          if (Test-Path -path "readme.ps1") {
+            . .\readme.ps1;
+            Invoke-Persistence -PersistStep 2;
+            write-host "[+] Persistence 2 invoked.";
+
+          } else {
+            write-host "[!] readme.ps1 not found.";
+            return 1;
+          }
+
+  executors:
+  - name: powershell
+    command: |
+      Set-Location -path "C:\Program Files\SysinternalsSuite";
+      if (Test-Path -path "readme.ps1") {
+        . .\readme.ps1;
+        Invoke-Persistence -PersistStep 2;
+        write-host "[+] Persistence 2 invoked.";
+
+      } else {
+        write-host "[!] readme.ps1 not found.";
+        return 1;
+      }

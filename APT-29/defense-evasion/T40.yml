@@ -1,0 +1,39 @@
+# Step 7 - Collection and Exfiltration
+- id: a4b14c10-49aa-4ae4-b165-d5a37364fe62
+  name: Staging files for PowerShell module imports
+  description: Renaming psversion.txt to psversion.txt to be imported
+  tactic: defensive-evasion
+  technique:
+    attack_id: T1036.005
+    name: "Masquerading: Match Legitimate Name or Location"
+  cti_source: "https://securelist.com/the-cozyduke-apt/69731/"
+  procedure_group: procedure_def_evasion
+  procedure_step: "7.A.1"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          if (! $(test-path -path "C:\Program Files\SysInternalsSuite")) {
+            write-host "[!] The path C:\Program Files\SysInternalsSuite does not exist. Execution has stopped.";
+            exit 1;
+          }
+
+          Set-Location -path "C:\Program Files\SysInternalsSuite";
+          if (test-path -path ".\psversion.txt" ) {
+            move-item .\psversion.txt psversion.ps1 -Force;
+          }
+            write-host "[+] File psversion.ps1 staged to be imported."
+
+  executors:
+  - name: powershell
+    command: |
+      if (! $(test-path -path "C:\Program Files\SysInternalsSuite")) {
+        write-host "[!] The path C:\Program Files\SysInternalsSuite does not exist. Execution has stopped.";
+        exit 1;
+      }
+
+      Set-Location -path "C:\Program Files\SysInternalsSuite";
+      if (test-path -path ".\psversion.txt" ) {
+        move-item .\psversion.txt psversion.ps1 -Force;
+      }
+        write-host "[+] File psversion.ps1 staged to be imported."

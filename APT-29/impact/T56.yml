@@ -1,0 +1,24 @@
+# Step 10 - Persistant Execution
+
+- id: 4b2e9574-b1a7-4b38-95b2-6054ded9c4fe
+  name: Scheduled Task
+  description: Reboot the machine to aid in peristence callbacks
+  tactic: impact
+  technique:
+    attack_id: T1529
+    name: "System Shutdown/Reboot"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_impact
+  procedure_step: "10.A.2"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          write-host "[*] Restarting Computer";
+          Restart-Computer -Force;
+
+  executors:
+  - name: powershell
+    command: |
+      write-host "[*] Restarting Computer";
+      Restart-Computer -Force;

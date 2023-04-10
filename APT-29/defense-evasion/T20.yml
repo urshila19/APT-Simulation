@@ -1,0 +1,52 @@
+- id: 68b588bc-002a-42dc-bac7-9189f944065b
+  name: Staging monkey PNG
+  description: Staging PNG for Lateral Movement
+  tactic: defensive-evasion
+  technique:
+    attack_id: T1036.005
+    name: "Masquerading: Match Legitimate Name or Location"
+  cti_source: "https://www.slideshare.net/MatthewDunwoody1/no-easy-breach-derby-con-2016"
+  procedure_group: procedure_def_evasion
+  procedure_step: "3.A.1"
+  platforms:
+    windows:
+      psh,pwsh:
+ew        command: |
+          $username="#{profile_user}";
+          if ( $(test-path -path "C:\Users\$username\Downloads\monkey.png") -eq $false ) {
+            copy-item monkey.png -Destination "C:\Users\$username\Downloads\\" -Force;
+            if ($? -eq $True) {
+              write-host "[+] Successfully copied monkey.png!";
+              get-childitem -path "C:\Users\$username\Downloads\\";
+              exit 0;
+            } else {
+              write-host "[+] Failed to copy monkey.png.";
+              exit 1;
+            }
+
+            } else {
+              write-host "[*] monkey.png already exists within C:\users\$username\Downloads..."
+            }
+        payloads:
+        - monkey.png
+
+  input_arguments:
+    profile_user:
+      description: Name of profile user
+      type: string
+      default: Administrator
+
+  executors:
+  - name: powershell
+    command: |
+      $username="#{profile_user}";
+      if ( $(test-path -path "C:\Users\$username\Downloads\monkey.png") -eq $false ) {
+        copy-item monkey.png -Destination "C:\Users\$username\Downloads\\" -Force;
+        if ($? -eq $True) {
+          write-host "[+] Successfully copied monkey.png!";
+          get-childitem -path "C:\Users\$username\Downloads\\";
+          exit 0;
+        } else {
+          write-host "[+] Failed to copy monkey.png.";
+          exit 1;
+        }

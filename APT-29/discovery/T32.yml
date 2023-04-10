@@ -1,0 +1,20 @@
+- id: ba0b398d-91b8-490a-bed2-f959afa8e1aa
+  name: 4.C.2 - System Network Connections Discovery (T1049)
+  description: The netstat utility is executed via cmd to enumerate local active network connections.
+  tactic: discovery
+  technique:
+    attack_id: T1049
+    name: "System Network Connections Discovery"
+  cti_source: "https://blog-assets.f-secure.com/wp-content/uploads/2020/03/18122307/F-Secure_Dukes_Whitepaper.pdf"
+  procedure_group: procedure_discovery
+  procedure_step: "4.C.2"
+  platforms:
+    windows:
+      cmd:
+        command: |
+        to  netstat -ano
+
+  executors:
+  - name: command_prompt
+    command: |
+      netstat -ano
