@@ -1,7 +1,7 @@
 # Step 7 - Collection and Exfiltration
 - id: a4b14c10-49aa-4ae4-b165-d5a37364fe62
   name: Staging files for PowerShell module imports
-  description: Renaming psversion.txt to psversion.txt to be imported
+  description: Renaming psversion.txt to psversion.ps1 to be imported
   tactic: defensive-evasion
   technique:
     attack_id: T1036.005
