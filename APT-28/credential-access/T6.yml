@@ -1,5 +1,4 @@
 - description: Run Rubeus to kerberoast users
-  id: d4df3433-4828-4cba-a213-0f2f2ce2e162
   name: Run Rubeus to kerberoast users
   platforms:
     windows:
