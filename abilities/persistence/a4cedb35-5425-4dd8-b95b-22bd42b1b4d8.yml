@@ -1,0 +1,12 @@
+- description: Create a scheduled task
+  id: a4cedb35-5425-4dd8-b95b-22bd42b1b4d8
+  name: Scheduled task persistence
+  platforms:
+    windows:
+      psh:
+        cleanup: Unregister-ScheduledTask -TaskName "NeverGonna" -Confirm:$false;
+        command: $action = New-ScheduledTaskAction -Execute 'explorer.exe' -Argument '"https://www.youtube.com/watch?v=DLzxrzFCyOs"';$trigger = New-ScheduledTaskTrigger -AtLogOn -User $env:USERNAME;$task = Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "NeverGonna" -Description "TrickyDicky";$task | Start-ScheduledTask;
+  tactic: persistence
+  technique:
+    attack_id: T1053
+    name: Scheduled Task
