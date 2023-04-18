@@ -1,5 +1,4 @@
 - description: Run Rubeus to brute-force password from ticket
-  id: 643fc9ef-1418-4b98-8467-b62c8f2e3b93
   name: Run Rubeus to brute-force passwords
   platforms:
     windows:
