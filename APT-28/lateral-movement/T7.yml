@@ -1,5 +1,4 @@
 - description: Launches 54ndc47 laterally using WMIC.
-  id: e42084fc-0a87-4089-90d9-7fb321e17f3b
   name: WMIC Lateral Infection
   platforms:
     windows:
