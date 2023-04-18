@@ -1,5 +1,4 @@
 - description: Create a scheduled task
-  id: a4cedb35-5425-4dd8-b95b-22bd42b1b4d8
   name: Scheduled task persistence
   platforms:
     windows:
